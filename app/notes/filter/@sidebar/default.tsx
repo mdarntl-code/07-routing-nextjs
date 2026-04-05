@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import css from "./SidebarNotes.module.css";
 
@@ -15,7 +17,7 @@ function SidebarNotes() {
       {TAGS.map((tag) => (
         <li key={tag} className={css.menuItem}>
           <Link
-            href={`/notes/filter/${tag.toLowerCase()}`}
+            href={`/notes/filter/${tag}`}
             className={css.menuLink}
           >
             {tag}
