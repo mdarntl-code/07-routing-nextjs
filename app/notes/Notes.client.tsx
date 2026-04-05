@@ -24,7 +24,11 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-function NotesClient() {
+interface NotesClientProps {
+  activeTag?: string;
+}
+
+function NotesClient({ activeTag = "" }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,8 +36,8 @@ function NotesClient() {
   const debouncedSearch = useDebounce(search, 500);
 
   const { data, isError, isLoading, isPlaceholderData } = useQuery({
-    queryKey: ['notes', { page, perPage: 6, search: debouncedSearch }],
-    queryFn: () => fetchNotes({ page, perPage: 6, search: debouncedSearch }),
+    queryKey: ['notes', { page, perPage: 6, search: debouncedSearch, tag: activeTag }],
+    queryFn: () => fetchNotes({ page, perPage: 6, search: debouncedSearch, tag: activeTag }),
     placeholderData: keepPreviousData,
   });
 
@@ -43,9 +47,9 @@ function NotesClient() {
   };
 
   return (
-    <div className={css.app}>
+    <div className={css.container || css.app}> 
       <header className={css.toolbar}>
-        <SearchBox  onChange={handleSearch} />
+        <SearchBox onChange={handleSearch} />
         
         {data && data.totalPages > 1 && (
           <Pagination 
@@ -60,11 +64,18 @@ function NotesClient() {
         </button>
       </header>
 
-      <main style={{ opacity: isPlaceholderData ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+      <main 
+        className={css.main} 
+        style={{ opacity: isPlaceholderData ? 0.6 : 1, transition: 'opacity 0.2s' }}
+      >
         {isLoading && !data && <p className={css.status}>Завантаження нотаток...</p>}
         {isError && <p className={css.error}>Сталася помилка при завантаженні нотаток.</p>}
         
         {data && <NoteList notes={data.notes} />}
+        
+        {data && data.notes.length === 0 && (
+          <p className={css.status}>Нотаток не знайдено.</p>
+        )}
       </main>
 
       {isModalOpen && (
