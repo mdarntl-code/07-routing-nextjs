@@ -3,14 +3,13 @@ import { fetchNotes } from "@/lib/api";
 import NotesClient from "../../Notes.client";
 
 interface TaggedNotesPageProps {
-  params: Promise<{ tags: string[] }>;
+  params: Promise<{ slug: string[] }>;
 }
 
 export default async function TaggedNotesPage({ params }: TaggedNotesPageProps) {
-  const { tags } = await params;
+  const { slug } = await params;
   
-  const currentTag = tags[0]; 
-
+  const currentTag = slug[0]; 
   const tagForApi = currentTag === 'all' ? "" : currentTag;
 
   const queryClient = new QueryClient();
