@@ -4,11 +4,11 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchNotes } from "@/lib/api";
 import { useState, useEffect } from "react";
 import css from "./notes.module.css"; 
-import SearchBox from "@/components/SearchBox/SearchBox";
-import Pagination from "@/components/Pagination/Pagination";
-import NoteList from "@/components/NoteList/NoteList";
-import Modal from "@/components/Modal/Modal";
-import NoteForm from "@/components/NoteForm/NoteForm";
+import SearchBox from "../../../../components/SearchBox/SearchBox";
+import Pagination from "../../../../components/Pagination/Pagination";
+import NoteList from "../../../../components/NoteList/NoteList";
+import Modal from "../../../../components/Modal/Modal";
+import NoteForm from "../../../../components/NoteForm/NoteForm";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
